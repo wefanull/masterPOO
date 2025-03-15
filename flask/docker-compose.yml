@@ -14,6 +14,7 @@ services:
       FLASK_RUN_HOST: 0.0.0.0
       TEMPLATES_AUTO_RELOAD: 'True'
       FLASK_ENV: development
+      MAGICK_HOME: /usr
     ports: 
       - '8000:5000'
     volumes:
