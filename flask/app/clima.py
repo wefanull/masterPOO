@@ -1,6 +1,7 @@
 import requests
-# from dotenv import load_dotenv
 import os
+#from dotenv import load_dotenv
+
 
 class Clima:
     def __init__(self):

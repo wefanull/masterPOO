@@ -1,7 +1,6 @@
 import json
 import figuras_random 
 import dibuja
-import clima
 import dibujarClima
 from flask import Flask, json, render_template, Response, request
 app = Flask(__name__)
@@ -9,6 +8,10 @@ app = Flask(__name__)
 @app.route('/', methods=('GET', 'POST'))
 def home():
     return render_template('index.html')
+
+@app.route('/clima', methods=['GET'])
+def clima():
+    return render_template('clima.html')
 
 @app.route('/figuras', methods=('GET', 'POST'))
 def github():
@@ -39,23 +42,12 @@ def db():
     r.headers["Content-Type"] = "image/png"
     return r
 
-@app.route('/dibujarClima', methods=('GET', 'POST'))
+@app.route('/dibujarClima', methods=('GET',))
 def dc():
-    r = Response(response=dibujarClima.dibuja_icono("01n"), status=200, mimetype="image/png")
+    ciudad = request.args.get('ciudad', default='Toluca')
+    r = Response(response=dibujarClima.genera_imagen(ciudad), status=200, mimetype="image/png")
     r.headers["Content-Type"] = "image/png"
     return r
-
-@app.route('/clima', methods=('GET', 'POST'))
-def clima():
-    Ciudad = request.args.get('ciudad')
-    return {
-        "ciudad": Ciudad,
-        "palo" : request.args.get('palo'),
-        "piedra": request.args.get('piedra')
-    }
-
-#clima.Clima().extrae_relevantes('Toluca')
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
